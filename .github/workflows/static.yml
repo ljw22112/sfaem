@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>스마트팜madebyIU</title>
+  <style>
+    body {
+      background-color: #e0e8e5; /* 배경색을 노란색으로 설정 */
+    }
+    #dataDisplay {
+      font-family: Arial, sans-serif;
+      margin-bottom: 20px;
+      text-align: center; /* 데이터를 가운데 정렬합니다. */
+    }
+    #dataDisplay p {
+      margin: 5px; /* 각 데이터 아이템 간의 여백을 추가합니다. */
+    }
+    #chart {
+      width: 300px;
+      height: 20px;
+      background-color: #fbf8f8;
+      margin: 10px auto;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #growthRateBar {
+      height: 100%;
+      background-color: rgb(76, 175, 142);
+      transition: width 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+<div id="dataDisplay">
+  <h2>SmartFarm Made by I.U</h2>
+  <p>온도: <span id="temperature"></span> ℃</p>
+  <p>광도: <span id="light"></span> Lux</p>
+  <p>습도: <span id="humidity"></span> %</p>
+  <p>성장률: <span id="growthRate"></span></p>
+  <div id="chart">
+    <div id="growthRateBar"></div>
+  </div>
+  <p>에너지 사용량: <span id="energyUsage"></span> kWh</p>
+  <p>남은 에너지량: <span id="remainingEnergy"></span> kWh</p>
+  <p>적합 여부: <span id="suitability"></span></p>
+  <h3>자연재해 예방 시스템(백업 시스템,돔형 구조물 천장 닫기)</h3>
+  <p>자연재해 예방 시스템 상태: <span id="disasterStatus">정상</span></p>
+  <button onclick="toggleDisasterSystem()">시스템 변경</button>
+  <h3>방호벽(외부인 차단용 및 강풍으로 작물 피해 예방용)</h3>
+  <p>방호벽 상태: <span id="barrierStatus">비활성화</span></p>
+  <button onclick="toggleBarrier()">방호벽 상태 변경</button>
+</div>
+<div id="adjustmentButtons" style="text-align: center;">
+<button onclick="adjustTemperature()">온도 조절하기</button>
+<button onclick="adjustLight()">광도 조절하기</button>
+<button onclick="adjustHumidity()">습도 조절하기</button>
+<button onclick="adjustGrowthRate()">성장률 수정하기</button>
+<button onclick="adjustEnergyUsage()">에너지 사용량 수정하기</button>
+<button onclick="adjustRemainingEnergy()">남은 에너지량 수정하기</button>
+</div>
+<script>
+  // 온도, 광도, 습도 랜덤 데이터 생성 (임시)
+  function generateRandomData() {
+    var temperature = Math.floor(Math.random() * (40 - 10 + 1)) + 10; // 10부터 40까지의 랜덤 온도
+    var light = Math.floor(Math.random() * (20000 - 1000 + 1)) + 1000; // 1000부터 20000까지의 랜덤 광도
+    var humidity = Math.floor(Math.random() * (100 - 30 + 1)) + 30; // 30부터 100까지의 랜덤 습도
+    
+    document.getElementById('temperature').textContent = temperature;
+    document.getElementById('light').textContent = light;
+    document.getElementById('humidity').textContent = humidity;
+    
+    var growthRate = calculateGrowthRate(temperature, light, humidity);
+    document.getElementById('growthRate').textContent = growthRate + "%";
+    updateGrowthRateChart(growthRate);
+
+    var energyUsage = Math.floor(Math.random() * (100 - 20 + 1)) + 20; // 20부터 100까지의 랜덤 에너지 사용량
+    var remainingEnergy = Math.floor(Math.random() * (200 - 100 + 1)) + 100; // 100부터 200까지의 랜덤 남은 에너지량
+    document.getElementById('energyUsage').textContent = energyUsage + " kWh";
+    document.getElementById('remainingEnergy').textContent = remainingEnergy + " kWh";
+
+    checkSuitability(temperature, light, humidity);
+  }
+  function toggleBarrier() {
+    var status = document.getElementById('barrierStatus');
+    if (status.textContent === "비활성화") {
+      status.textContent = "활성화됨";
+    } else {
+      status.textContent = "비활성화";
+    }
+    // 방호벽을 활성화 또는 비활성화하는 코드를 추가할 수 있습니다.
+  }
+  function toggleDisasterSystem() {
+    var status = document.getElementById('disasterStatus');
+    if (status.textContent === "정상") {
+      status.textContent = "활성화됨";
+    } else {
+      status.textContent = "정상";
+    }
+    // 자연재해 예방 시스템을 활성화 또는 정지하는 코드를 추가할 수 있습니다.
+  }
+  // 데이터를 기반으로 성장률 계산
+  function calculateGrowthRate(temperature, light, humidity) {
+    // 간단한 가상의 성장률 계산
+    var growthRate = Math.floor(Math.random()*(100-1+1))+1;
+    return Math.floor(growthRate);
+  }
+
+  // 성장률 차트 업데이트
+  function updateGrowthRateChart(growthRate) {
+    var growthRateBar = document.getElementById('growthRateBar');
+    growthRateBar.style.width = growthRate + "%";
+  }
+
+  // 데이터를 기반으로 적합 여부 판단
+  function checkSuitability(temperature, light, humidity) {
+    var isSuitable = "적합함";
+    // 여기에 적합 여부를 판단하는 로직을 추가할 수 있습니다.
+    // 예를 들어, 특정 범위 안에 있는지 등을 확인하여 적합 여부를 결정할 수 있습니다.
+
+    document.getElementById('suitability').textContent = isSuitable;
+  }
+
+  function adjustTemperature() {
+    var newTemperature = prompt("새로운 온도를 입력하세요 (10℃ 이상 40℃ 이하):");
+    if (newTemperature !== null) {
+      newTemperature = parseInt(newTemperature);
+      if (!isNaN(newTemperature) && newTemperature >= 10 && newTemperature <= 40) {
+        document.getElementById('temperature').textContent = newTemperature;
+        var light = parseInt(document.getElementById('light').textContent);
+        var humidity = parseInt(document.getElementById('humidity').textContent);
+        var growthRate = calculateGrowthRate(newTemperature, light, humidity);
+        document.getElementById('growthRate').textContent = growthRate + "%";
+        updateGrowthRateChart(growthRate);
+        checkSuitability(newTemperature, light, humidity);
+      } else {
+        alert("올바른 온도를 입력하세요.");
+      }
+    }
+  }
+
+  // 광도를 조절하는 함수
+  function adjustLight() {
+    var newLight = prompt("새로운 광도를 입력하세요 (1000 Lux 이상 20000 Lux 이하):");
+    if (newLight !== null) {
+      newLight = parseInt(newLight);
+      if (!isNaN(newLight) && newLight >= 1000 && newLight <= 20000) {
+        document.getElementById('light').textContent = newLight;
+        var temperature = parseInt(document.getElementById('temperature').textContent);
+        var humidity = parseInt(document.getElementById('humidity').textContent);
+        var growthRate = calculateGrowthRate(temperature, newLight, humidity);
+        document.getElementById('growthRate').textContent = growthRate + "%";
+        updateGrowthRateChart(growthRate);
+        checkSuitability(temperature, newLight, humidity);
+      } else {
+        alert("올바른 광도를 입력하세요.");
+      }
+    }
+  }
+
+  // 습도를 조절하는 함수
+  function adjustHumidity() {
+    var newHumidity = prompt("새로운 습도를 입력하세요 (30% 이상 100% 이하):");
+    if (newHumidity !== null) {
+      newHumidity = parseInt(newHumidity);
+      if (!isNaN(newHumidity) && newHumidity >= 30 && newHumidity <= 100) {
+        document.getElementById('humidity').textContent = newHumidity;
+        var temperature = parseInt(document.getElementById('temperature').textContent);
+        var light = parseInt(document.getElementById('light').textContent);
+        var growthRate = calculateGrowthRate(temperature, light, newHumidity);
+        document.getElementById('growthRate').textContent = growthRate + "%";
+        updateGrowthRateChart(growthRate);
+        checkSuitability(temperature, light, newHumidity);
+      } else {
+        alert("올바른 습도를 입력하세요.");
+      }
+    }
+  }
+  function adjustGrowthRate() {
+    var newGrowthRate = prompt("새로운 성장률을 입력하세요:");
+    if (newGrowthRate !== null) {
+      newGrowthRate = parseInt(newGrowthRate);
+      if (!isNaN(newGrowthRate) && newGrowthRate >= 0 && newGrowthRate <= 100) {
+        document.getElementById('growthRate').textContent = newGrowthRate + "%";
+        updateGrowthRateChart(newGrowthRate);
+      } else {
+        alert("올바른 성장률을 입력하세요.");
+      }
+    }
+  }
+  // 에너지 사용량을 조절하는 함수
+  function adjustEnergyUsage() {
+    var newEnergyUsage = prompt("새로운 에너지 사용량을 입력하세요 (20 kWh 이상 100 kWh 이하):");
+    if (newEnergyUsage !== null) {
+      newEnergyUsage = parseInt(newEnergyUsage);
+      if (!isNaN(newEnergyUsage) && newEnergyUsage >= 20 && newEnergyUsage <= 100) {
+        document.getElementById('energyUsage').textContent = newEnergyUsage + " kWh";
+      } else {
+        alert("올바른 에너지 사용량을 입력하세요.");
+      }
+    }
+  }
+
+  // 남은 에너지량을 조절하는 함수
+  function adjustRemainingEnergy() {
+    var newRemainingEnergy = prompt("새로운 남은 에너지량을 입력하세요 (100 kWh 이상 200 kWh 이하):");
+    if (newRemainingEnergy !== null) {
+      newRemainingEnergy = parseInt(newRemainingEnergy);
+      if (!isNaN(newRemainingEnergy) && newRemainingEnergy >= 100 && newRemainingEnergy <= 200) {
+        document.getElementById('remainingEnergy').textContent = newRemainingEnergy + " kWh";
+      } else {
+        alert("올바른 남은 에너지량을 입력하세요.");
+      }
+    }
+  }
+  // 페이지 로드 시 랜덤 데이터 생성
+  window.onload = function() {
+    generateRandomData();
+  };
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html>
